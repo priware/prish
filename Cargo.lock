@@ -547,6 +547,8 @@ version = "0.1.0"
 dependencies = [
  "bytes",
  "futures-util",
+ "serde",
+ "serde_derive",
  "tokio",
  "tokio-pty",
  "tracing",
@@ -643,6 +645,17 @@ name = "serde"
 version = "1.0.163"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2113ab51b87a539ae008b5c6c02dc020ffa39afd2d83cffcb3f4eb2722cebec2"
+
+[[package]]
+name = "serde_derive"
+version = "1.0.163"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8c805777e3930c8883389c602315a24224bcc738b63905ef87cd1420353ea93e"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "serde_json"
@@ -816,7 +829,7 @@ dependencies = [
 [[package]]
 name = "tokio-pty"
 version = "0.1.0"
-source = "git+https://github.com/priware/tokio-pty.git#a94d95d5866996322711e7f1ebfd9f5f25736e33"
+source = "git+https://github.com/priware/tokio-pty.git#66b277cc4e7ac177f5864e70e0343bd01d6c7234"
 dependencies = [
  "futures",
  "libc",
