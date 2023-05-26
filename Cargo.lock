@@ -816,6 +816,7 @@ dependencies = [
 [[package]]
 name = "tokio-pty"
 version = "0.1.0"
+source = "git+https://github.com/priware/tokio-pty.git#a94d95d5866996322711e7f1ebfd9f5f25736e33"
 dependencies = [
  "futures",
  "libc",
