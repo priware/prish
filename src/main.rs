@@ -2,6 +2,7 @@ use bytes::BytesMut;
 use futures_util::{SinkExt, StreamExt};
 use serde_derive::{Deserialize, Serialize};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::time;
 use tokio_pty::AsyncPty;
 use tracing::instrument;
 use tracing::{info, warn};
@@ -51,16 +52,19 @@ async fn client_connected(ws: WebSocket) {
     let pty = AsyncPty::open().unwrap();
     pty.resize(120, 32);
     let (mut pt_rx, mut pt_tx) = tokio::io::split(pty);
+    let mut ws_keep_alive = time::interval(time::Duration::from_secs(15));
 
     loop {
         tokio::select! {
             Ok(size) = pt_rx.read(&mut buf) => {
                 ws_tx.send(Message::binary(&buf[0..size])).await;
             }
+            _ = ws_keep_alive.tick() => {
+                ws_tx.send(Message::binary([])).await;
+            }
             Some(result) = ws_rx.next() => {
                 let msg = result.unwrap();
                 pt_tx.write(msg.as_bytes()).await;
-                info!("recv: {:?}", msg);
             }
         }
     }
