@@ -47,7 +47,7 @@ Append following to the `/etc/haproxy/haproxy.cfg` and restart haproxy.
 ```conf
 frontend prish-front
   bind 0.0.0.0:80
-  bind 0.0.0.0:443  ssl crt /etc/haproxy/certs/server.pem verify required ca-file /etc/haproxy/certs/intermediate-ca.crt ca-verify-file /etc/haproxy/certs/root-ca.crt
+  bind 0.0.0.0:443  ssl crt /etc/haproxy/certs/server.pem alpn h2,http/1.1 verify required ca-file /etc/haproxy/certs/intermediate-ca.crt ca-verify-file /etc/haproxy/certs/root-ca.crt
   http-request redirect scheme https unless { ssl_fc }
   default_backend prish
 
